@@ -25,6 +25,13 @@ def composer(func=lambda x: x):
         return composer(h)
     return func, func_adder
 
+""" Remark:
+composer():返回函数f(x)=x和函数func_adder
+而func_adder(g)返回的是g和新的func_adder(不妨记为func_adder1)
+而func_adder1(h)返回g(h)这个函数和新的func_adder(记为func_adder2)
+而func_adder2(w)返回g(h(w))这个函数和新的func_adder...s
+"""
+
 
 def g(n):
     """Return the value of G(n), computed recursively.
@@ -45,6 +52,10 @@ def g(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n<=3:
+        return n
+    else:
+        return g(n-1)+2*g(n-2)+3*g(n-3)
 
 def g_iter(n):
     """Return the value of G(n), computed iteratively.
@@ -65,6 +76,25 @@ def g_iter(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    if n<=3:
+        return n
+    else:
+        i=4
+        temp=0
+        a1,a2,a3=1,2,3
+        while i<=n:
+            if i%3==1:
+                temp=3*a1+2*a2+a3
+                a1=temp
+            elif i%3==2:
+                temp=3*a2+2*a3+a1
+                a2=temp
+            else:
+                temp=3*a3+2*a1+a2
+                a3=temp
+            i=i+1
+        return temp
+
 
 
 def missing_digits(n):
