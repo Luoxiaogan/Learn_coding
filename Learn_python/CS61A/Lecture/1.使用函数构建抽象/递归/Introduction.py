@@ -15,7 +15,7 @@ def fact_iter(n):
         total=total*i
         i=i+1
     return total
-#递归方法
+#递归方法:
 def fact(n):
     if n==1:
         return 1
