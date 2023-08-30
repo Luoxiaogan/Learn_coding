@@ -125,6 +125,15 @@ def missing_digits(n):
     True
     """
     "*** YOUR CODE HERE ***"
+    #必须使用递归来做(recursive method)
+    #思路：从最后一项n%10开始往下减
+    if n<10:
+        return 0
+    else:
+        if n%10==(n//10)%10:
+            return 0+missing_digits(n//10)
+        else:
+            return n%10-(n//10)%10-1+missing_digits(n//10)
 
 
 def count_change(total):
