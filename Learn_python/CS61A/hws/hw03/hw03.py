@@ -153,6 +153,58 @@ def count_change(total):
     True
     """
     "*** YOUR CODE HERE ***"
+    def helper(n, m):#来自学长的答案！！！
+        if n == 0:#组合完毕
+            return 1
+        elif n < (1 << m):#超出了，不能组合了
+            return 0
+        else:
+            return helper(n, m + 1) + helper(n - (1 << m), m)
+    return helper(total, 0)#实际上需要减去1，只不过示例里面没有2的次幂
+
+#1<<m 表示1的二进制向左移动m位，其实就是快速计算2^m的方法
+#我想复杂了!
+    
+
+def biggest_coin(n):#小于等于n的最大硬币面值(可以等于n),用于测试
+        if n==1:
+            return 1
+        elif n==2:
+            return 2
+        else:
+            a=2
+            while(a<=n):
+                a=a*2
+            return a//2
+        
+
+def count_change_advance(total,a):#Test
+        """ 计算count_change(total)
+        并且:
+            1.之后减的数要大于等于a(保证升序)
+            2.减出来剩下的数也要大于a(防止4——>4=1+3——>1+1+2=1+2+1的重复)
+            3.包含(total-a)+0
+        """
+        #递归终止情况
+        if total==0:
+            return 0
+        elif total==1:
+            return 1
+        elif total==a:#即4=4+0
+            return 1
+        if total-a<a:#比如:3-2<1(1+2+1=1+1+2),2=1+1不会有问题的
+            return 0#舍去这种情况
+        biggest=biggest_coin(total)
+        #得到最大面值
+        sum,index=0,a
+        while(index<=total):
+            sum=sum+count_change_advance(total-index,index)
+            index=index*2
+        return sum
+
+    
+        
+
 
 
 def print_move(origin, destination):
