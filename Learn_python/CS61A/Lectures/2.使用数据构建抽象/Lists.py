@@ -57,5 +57,3 @@ def sum_blow(n):
 def cheer():
     for _ in range(3):#don't actually care what the element is
         print('Go Bears!')
-
-#List Comprehensions
