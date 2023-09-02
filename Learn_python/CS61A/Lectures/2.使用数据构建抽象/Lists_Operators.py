@@ -92,3 +92,7 @@ import functools
 from operator import __mul__
 def product(s):
     return functools.reduce(__mul__,s)
+
+#成员资格 in && not in
+digits=[1,2,3,4]
+#切片：Slicing
