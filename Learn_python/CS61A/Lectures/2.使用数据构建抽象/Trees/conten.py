@@ -66,3 +66,12 @@ def print_tree(t,indent=0):
     print(' '*indent + str(label(t)))
     for b in branches(t):
         print_tree(b,indent+1)
+
+def min_depth(t):
+    """ A simple function to return the distance between t's root and its closest leaf """
+    if is_leaf(t):
+        return 0
+    h=float('inf')# Python's version of infinity
+    for b in branches(t):
+        h=min(h,1+min_depth(b))
+    return h

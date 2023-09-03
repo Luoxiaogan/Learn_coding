@@ -44,11 +44,13 @@ def planet(size):
     """Construct a planet of some size."""
     assert size > 0
     "*** YOUR CODE HERE ***"
+    return ['planet', size]
 
 def size(w):
     """Select the size of a planet."""
     assert is_planet(w), 'must call size on a planet'
     "*** YOUR CODE HERE ***"
+    return w[1]
 
 def is_planet(w):
     """Whether w is a planet."""
@@ -105,6 +107,14 @@ def balanced(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return True
+    else:
+        assert is_mobile(m)
+        if total_weight(end(left(m)))*length(left(m))==total_weight(end(right(m)))*length(right(m)) and balanced(end(left(m))) and balanced(end(right(m))):
+            return True
+        else:
+            return False
 
 def totals_tree(m):
     """Return a tree representing the mobile with its total weight at the root.
@@ -136,6 +146,11 @@ def totals_tree(m):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_planet(m):
+        return tree(total_weight(m),[])
+    else:
+        l ,r=end(left(m)), end(right(m))
+        return tree(total_weight(m), [totals_tree(l), totals_tree(r)])
 
 
 def replace_leaf(t, find_value, replace_value):
@@ -168,6 +183,13 @@ def replace_leaf(t, find_value, replace_value):
     True
     """
     "*** YOUR CODE HERE ***"
+    if is_leaf(t):
+        if label(t)==find_value:
+            return tree(replace_value,[])
+        else:
+            return tree(label(t),[])
+    else:
+        return tree(label(t), [replace_leaf(branche,find_value, replace_value) for branche in branches(t)])
 
 
 def preorder(t):
@@ -181,6 +203,7 @@ def preorder(t):
     [2, 4, 6]
     """
     "*** YOUR CODE HERE ***"
+    return [label(t)]+sum((preorder(b) for b in branches(t)),[])
 
 
 def has_path(t, phrase):
@@ -213,6 +236,15 @@ def has_path(t, phrase):
     """
     assert len(phrase) > 0, 'no path for empty phrases.'
     "*** YOUR CODE HERE ***"
+    if len(phrase)==1:
+        return label(t)==phrase[0]
+    else:
+        flag = False
+        for b in branches(t):
+            if has_path(b, phrase[1:]):
+                flag = not flag
+                break
+        return label(t)==phrase[0] and flag
 
 
 def interval(a, b):
@@ -222,10 +254,13 @@ def interval(a, b):
 def lower_bound(x):
     """Return the lower bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[0]
 
 def upper_bound(x):
     """Return the upper bound of interval x."""
     "*** YOUR CODE HERE ***"
+    return x[1]
+
 def str_interval(x):
     """Return a string representation of interval x.
     """
@@ -237,20 +272,22 @@ def add_interval(x, y):
     lower = lower_bound(x) + lower_bound(y)
     upper = upper_bound(x) + upper_bound(y)
     return interval(lower, upper)
+
+
 def mul_interval(x, y):
     """Return the interval that contains the product of any value in x and any
     value in y."""
-    p1 = x[0] * y[0]
-    p2 = x[0] * y[1]
-    p3 = x[1] * y[0]
-    p4 = x[1] * y[1]
-    return [min(p1, p2, p3, p4), max(p1, p2, p3, p4)]
-
+    p1 = lower_bound(x) * lower_bound(y)
+    p2 = lower_bound(x) * upper_bound(y)
+    p3 = upper_bound(x) * lower_bound(y)
+    p4 = upper_bound(x) * upper_bound(y)
+    return interval(min(p1, p2, p3, p4), max(p1, p2, p3, p4))
 
 def sub_interval(x, y):
     """Return the interval that contains the difference between any value in x
     and any value in y."""
     "*** YOUR CODE HERE ***"
+    return interval(lower_bound(x)-upper_bound(y), upper_bound(x)-lower_bound(y))
 
 
 def div_interval(x, y):
