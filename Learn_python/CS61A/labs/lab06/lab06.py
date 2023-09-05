@@ -17,6 +17,12 @@ def make_adder_inc(a):
     11
     """
     "*** YOUR CODE HERE ***"
+    i=-1
+    def adder(b):
+        nonlocal i,a
+        i=i+1
+        return a+b+i
+    return adder
 
 
 def make_fib():
@@ -43,6 +49,17 @@ def make_fib():
     True
     """
     "*** YOUR CODE HERE ***"
+    former1, former2=0,1
+    i=-1
+    def fib():
+        nonlocal former1, former2,i
+        i=i+1
+        if i==0:
+            return 0
+        else:
+            former1, former2 = former2, former1+former2
+            return former1
+    return fib
 
 
 def insert_items(lst, entry, elem):
@@ -62,4 +79,16 @@ def insert_items(lst, entry, elem):
     True
     """
     "*** YOUR CODE HERE ***"
-
+    length = len(lst)
+    i=0
+    while i<length:
+        if lst[i] != entry:
+            i=i+1
+        else:
+            if i==length-1:
+                lst.append(elem)
+            else:
+                lst.insert(i+1,elem)
+            i=i+2
+            length = length + 1
+    return lst
